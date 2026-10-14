@@ -5,9 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.myblog.myblog.model.BlogProfile;
 import com.myblog.myblog.model.MeResponse;
 import com.myblog.myblog.model.PersonalProfile;
+import com.myblog.myblog.model.MessageRequest;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class HelloController {
+
+    private final List<MessageRequest> messages = new ArrayList<>();
 
     @GetMapping("/hello")
     public String hello() {
@@ -46,5 +54,18 @@ public class HelloController {
         me.contact = "frankyanghm";
         return me;
     }
+    @PostMapping("/messages")
+    public MessageRequest create(@RequestBody MessageRequest request){
+        messages.add(request);
+        return request;
+    }
+    @GetMapping("/messages")
+    public List<MessageRequest> list(){
+        return messages;
+    }
 
+    @GetMapping("/messages/{index}")
+    public MessageRequest getOne(@PathVariable int index) {
+        return messages.get(index);
+    }
 }
