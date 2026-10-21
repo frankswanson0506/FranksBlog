@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class InMemoryMessageRepository implements MessageRepository {
 
     // 原先Controller中的内存存储，迁移到此
