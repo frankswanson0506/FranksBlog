@@ -6,6 +6,7 @@ import com.myblog.myblog.service.MessageService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
+import com.myblog.myblog.model.PageResult;
 
 @RestController
 public class MessageController {
@@ -23,17 +24,19 @@ public class MessageController {
         return messageService.create(request);
     }
 
-    // 获取全部留言 GET /messages
-    @GetMapping("/messages")
-    public List<Message> list(){
-        return messageService.list();
-    }
-
     // 根据id查询单条留言 GET /messages/{id}
     @GetMapping("/messages/{id}")
     public Message findById(@PathVariable Long id){
         Optional<Message> opt = messageService.findById(id);
         // 找不到抛出异常
         return opt.orElseThrow(() -> new RuntimeException("Message not found"));
+    }
+    @GetMapping("/messages")
+    public PageResult<Message> listSearch(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "1") long page,
+            @RequestParam(defaultValue = "5") long size
+    ){
+        return messageService.search(keyword, page, size);
     }
 }
