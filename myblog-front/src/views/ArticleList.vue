@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getJson } from '../api.js'
+import { getData } from '../api/http.js'
 
 const router = useRouter()
 const articles = ref([])
@@ -9,8 +9,10 @@ const error = ref('')
 
 onMounted(async () => {
   try {
-    const body = await getJson('/articles?page=1&size=10')
-    articles.value = body.data.items
+    const data = await getData('/articles', {
+      params: { page: 1, size: 10 }
+    })
+    articles.value = data.items
   } catch (e) {
     error.value = e.message
   }

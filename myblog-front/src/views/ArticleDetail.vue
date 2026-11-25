@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getJson } from '../api.js'
+import { getData } from '../api/http.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -10,8 +10,7 @@ const error = ref('')
 
 onMounted(async () => {
   try {
-    const body = await getJson(`/articles/${route.params.id}`)
-    article.value = body.data
+    article.value = await getData(`/articles/${route.params.id}`)
   } catch (e) {
     error.value = e.message
   }
